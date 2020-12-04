@@ -49,7 +49,13 @@ export default {
   methods: {
     onSubmit() {
       console.log("submit");
-      this.$store.commit('registerStart');
+      this.$store.dispatch('register', {
+        email: 'teasasdasst@t3est.com',
+        username: 'usernasdasda2me',
+        password: 'pass33word'
+      }).then(user => {
+        console.log("success register user", user)
+      })
     },
   }
 }
