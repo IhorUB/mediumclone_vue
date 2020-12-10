@@ -49,7 +49,8 @@ export default {
     McvValidationErrors
   }, computed: {
     ...mapState({
-      isSubmitting: state => state.auth.isSubmitting, validationErrors: state => state.auth.validationErrors
+      isSubmitting: state => state.auth.isSubmitting,
+      validationErrors: state => state.auth.validationErrors
     })
 // isSubmitting() {
 //   return this.$store.state.auth.isSubmitting
