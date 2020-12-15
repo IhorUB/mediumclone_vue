@@ -9,7 +9,8 @@ Vue.use(VueRouter)
 
 const routes = [{
     path: '/register', name: 'register', component: Register
-}, {
+},
+    {
     path: '/login', name: 'login', component: Login
 }, {
     path: '/', name: 'globalFeed', component: GlobalFeed
