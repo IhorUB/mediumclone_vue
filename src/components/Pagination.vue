@@ -2,8 +2,8 @@
     <ul class="pagination">
         <li v-for="page in pages"
             :key="page"
-            class="page-item"
-            :class="{active: currentPage === page}">
+            :class="{active: currentPage === page}"
+            class="page-item">
             <router-link :to="{path:url, query:{page:page}}" class="page-link">
                 {{ page }}
             </router-link>
@@ -21,7 +21,7 @@ export default {
         }, limit: {
             type: Number, required: true
         }, currentPage: {
-            type: Number, required: true,
+            type: Number, required: true
         }, url: {
             type: String, required: true
         }
