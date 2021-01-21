@@ -4,6 +4,8 @@ import VueRouter from 'vue-router'
 import GlobalFeed from '@/views/GlobalFeed'
 import Register from "@/views/Register"
 import Login from '@/views/Login'
+import YourFeed from "@/views/YourFeed";
+import TagFeed from "@/components/TagFeed";
 
 Vue.use(VueRouter)
 
@@ -15,9 +17,9 @@ const routes = [{
 }, {
     path: '/', name: 'globalFeed', component: GlobalFeed
 }, {
-    path: '/feed', name: 'yourFeed', component: GlobalFeed
+    path: '/feed', name: 'yourFeed', component: YourFeed
 }, {
-    path: '/tags/:slug', name: 'tag', component: GlobalFeed
+    path: '/tags/:slug', name: 'tag', component: TagFeed
 }, {
     path: '/article/new', name: 'createArticle', component: GlobalFeed
 }, {
