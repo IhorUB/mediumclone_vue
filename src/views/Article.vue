@@ -13,11 +13,11 @@
                         </router-link>
                         <span class="date">{{ article.createdAt }}</span>
                     </div>
-                    <span>
+                    <span v-if="isAuthor">
                         <router-link class="btn btn-outline-secondary btn-sm"
                                      :to="{name: 'editArticle', params: {slug: article.slug}}">
                             <i class="ion-edit"/>Edit Article</router-link>
-                        <button class="btn btn-outline-danger btn-sm"> <i class="ion-trash-a"/>Delete Article</button>
+                        <button class="btn btn-outline-danger btn-sm" @click="deleteArticle"> <i class="ion-trash-a"/>Delete Article</button>
                     </span>
                 </div>
             </div>
@@ -40,7 +40,8 @@
 
 <script>
 import {actionTypes} from '@/store/modules/article'
-import {mapState} from 'vuex'
+import {getterTypes as authGettersTypes} from "@/store/modules/auth";
+import {mapState, mapGetters} from 'vuex'
 import McvLoading from "@/components/Loading"
 import McvErrorMessage from "@/components/ErrorMessage";
 
@@ -48,13 +49,29 @@ export default {
     name: "McvArticle", components: {
         McvLoading, McvErrorMessage
     }, mounted() {
-        this.$store.dispatch(actionTypes.getArticle, {slug: this.$route.params.slug})
+        this.$store.dispatch(actionTypes.getArticle, {slug: this.slug})
+    }, methods: {
+        deleteArticle() {
+            this.dispatch(actionTypes.deleteArticle, {slug: this.slug})
+                .then(() => {
+                    this.$route.push({name: 'globalFeed'})
+                })
+        }
     }, computed: {
-        ...mapState({
+        slug() {
+            return this.$route.params.slug
+        }, ...mapState({
             isLoading: state => state.article.isLoading,
             error: state => state.article.error,
             article: state => state.article.data
-        })
+        }), ...mapGetters({
+            currentUser: authGettersTypes.currentUser
+        }), isAuthor() {
+            if (!this.currentUser || !this.article) {
+                return false
+            }
+            return this.currentUser.username === this.article.author.username
+        }
     }
 }
 

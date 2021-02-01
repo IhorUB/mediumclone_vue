@@ -1,4 +1,5 @@
 import articleApi from "@/api/article";
+import deleteArticleApi from "@/api/article"
 
 const state = {
     data: null, isLoading: false, error: null
@@ -7,11 +8,17 @@ const state = {
 export const mutationTypes = {
     getArticleStart: '[article] Get article start',
     getArticleSuccess: '[article] Get article success',
-    getArticleFailure: '[article] Get article failure'
+    getArticleFailure: '[article] Get article failure',
+
+    deleteArticleStart: '[article] Delete article start',
+    deleteArticleSuccess: '[article] Delete article success',
+    deleteArticleFailure: '[article] Delete article failure',
+
 }
 
 export const actionTypes = {
-    getArticle: '[article] GetArticle'
+    getArticle: '[article] GetArticle',
+    deleteArticle: '[article] DeleteArticle'
 }
 
 const mutations = {
@@ -23,7 +30,13 @@ const mutations = {
         state.data = payload
     }, [mutationTypes.getArticleFailure](state) {
         state.isLoading = false
-    }
+    },
+
+    [mutationTypes.deleteArticleStart]() {},
+    [mutationTypes.deleteArticleSuccess](state) {
+        state.data = null
+    },
+    [mutationTypes.getArticleFailure]() {}
 }
 
 const actions = {
@@ -34,6 +47,20 @@ const actions = {
                 .then(article => {
                     context.commit(mutationTypes.getArticleSuccess, article)
                     resolve(article)
+                })
+                .catch(() => {
+                    context.commit(mutationTypes.getArticleFailure)
+                })
+        })
+    },
+
+    [actionTypes.deleteArticle](context, {slug}) {
+        return new Promise(resolve => {
+            context.commit(mutationTypes.deleteArticleStart, slug)
+            deleteArticleApi.deleteArticle(slug)
+                .then(() => {
+                    context.commit(mutationTypes.getArticleSuccess)
+                    resolve()
                 })
                 .catch(() => {
                     context.commit(mutationTypes.getArticleFailure)
