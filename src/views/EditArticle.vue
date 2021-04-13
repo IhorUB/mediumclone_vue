@@ -3,6 +3,7 @@
     <mcv-loading v-if="isLoading"/>
     <mcv-article-form
         v-if="initialValues"
+        :inital-values="initialValues"
         :errors="validationErrors"
         :is-submitting="isSubmitting"
         @articleSubmit="onSubmit"
